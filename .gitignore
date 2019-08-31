@@ -1,0 +1,9 @@
+# ignore any saved NNs
+
+savedNetwork/*
+
+
+
+# ignore generated .csv files
+
+**/*.csv
