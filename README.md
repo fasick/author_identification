@@ -38,7 +38,7 @@
         - `python train.py`
         - answer no --> `n`
         - the previously saved network, enter:
-            savedNetwork/savedNetwork
+            savedNetwork/[nameEnteredFromTraining]
         - enter the relative path to the csv file
             - csv file must have first been generated
               using textProcessing.py

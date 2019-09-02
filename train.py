@@ -9,8 +9,8 @@ class Network:
         #########################################
         self.numInputs = numNodes[0]
         self.numOutputs = numNodes[-1]
-        self.X = tf.placeholder(name='X', dtype=tf.float32, shape=[None, numNodes[0]])
-        self.Y = tf.placeholder(name='Y', dtype=tf.float32, shape=[None, numNodes[-1]])
+        self.X = tf.compat.v1.placeholder(name='X', dtype=tf.float32, shape=[None, numNodes[0]])
+        self.Y = tf.compat.v1.placeholder(name='Y', dtype=tf.float32, shape=[None, numNodes[-1]])
         #########################################
         self.weights = [tf.Variable(tf.random.normal([x,y])) for x,y in zip(numNodes[:-1], numNodes[1:])]
         self.biases  = [tf.Variable(tf.random.normal([x])) for x in numNodes[1:]]
@@ -24,7 +24,7 @@ class Network:
         self.optimizer = optimizeFunction(learning_rate=self.learningRate)
         self.trainingOpts = self.optimizer.minimize(self.loss)
         self.numCorrectInRowToExit = numCorrectInRowToExit
-        self.saver = tf.train.Saver()
+        self.saver = tf.compat.v1.train.Saver()
 
     def ForwardPropagateModel(self):
         out = 0
@@ -79,8 +79,8 @@ if __name__ == '__main__':
     anonymousData = None
     #############################################
     # some possible optimizers to choose from
-    optimizers = [tf.train.AdamOptimizer, tf.train.GradientDescentOptimizer,
-                  tf.train.ProximalGradientDescentOptimizer]
+    optimizers = [tf.compat.v1.train.AdamOptimizer, tf.compat.v1.train.GradientDescentOptimizer,
+                  tf.compat.v1.train.ProximalGradientDescentOptimizer]
     
     numNodes = [21]
     for i in range(numHiddn):
@@ -129,16 +129,8 @@ if __name__ == '__main__':
         textFile = None
         while savedNetwork is None:
             savedNetwork = input('Enter directory of saved network: ')
-            # try:
-            #     listdir(savedNetwork)
-            # except NotADirectoryError:
-            #     print(savedNetwork, ' is not a directory.')
-            #     savedNetwork = None
-            # except FileNotFoundError:
-            #     print('the directory ', savedNetwork, ' does not exist')
-            #     savedNetwork = None
         while textFile is None:
-            textFile = input('Enter text file to identify the author: ')
+            textFile = input('Enter a csv file (generated using textProcessing.py) to identify the author: ')
             try:
                 with open(textFile, mode='r') as _file:
                     reader = csv.reader(_file)
